@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verificación de Ventas - Cambio</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
         * {
@@ -40,7 +40,7 @@
             border-radius: 12px;
             padding: 18px;
             margin-bottom: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
             position: relative;
             opacity: 0;
             transform: translateY(-8px);
@@ -55,8 +55,15 @@
             }
         }
 
-        .venta.fuego { border-left: 4px solid #ef4444; background-color: #fef2f2; }
-        .venta.caliente { border-left: 4px solid #f59e0b; background-color: #fffbeb; }
+        .venta.fuego {
+            border-left: 4px solid #ef4444;
+            background-color: #fef2f2;
+        }
+
+        .venta.caliente {
+            border-left: 4px solid #f59e0b;
+            background-color: #fffbeb;
+        }
 
         .venta-header {
             font-size: 1.1rem;
@@ -72,7 +79,8 @@
             flex-wrap: wrap;
         }
 
-        .cambio-box, .hora-box {
+        .cambio-box,
+        .hora-box {
             display: flex;
             flex-direction: column;
             padding: 8px 12px;
@@ -83,9 +91,26 @@
             flex: 1;
         }
 
-        .cambio.positivo { color: #059669; font-weight: 700; font-size: 1.25rem; line-height: 1.2; }
-        .cambio.negativo { color: #dc2626; font-weight: 700; font-size: 1.25rem; line-height: 1.2; }
-        .cambio.cero { color: #64748b; font-weight: 600; font-size: 1.25rem; line-height: 1.2; }
+        .cambio.positivo {
+            color: #059669;
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.2;
+        }
+
+        .cambio.negativo {
+            color: #dc2626;
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.2;
+        }
+
+        .cambio.cero {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 1.25rem;
+            line-height: 1.2;
+        }
 
         .hora-valor {
             font-weight: 700;
@@ -109,10 +134,16 @@
             color: #1d4ed8;
         }
 
-        .metodo-pago {
+        .metodo-pago,
+        .pagado-info {
             font-size: 0.9rem;
             color: #475569;
-            margin: 8px 0;
+            margin: 6px 0;
+        }
+
+        .pagado-info {
+            font-weight: 600;
+            color: #0f172a;
         }
 
         /* === BOTÓN DE EXPANSIÓN AL FINAL === */
@@ -177,7 +208,7 @@
             color: #0f172a;
             padding: 10px 14px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
             font-weight: 600;
             font-size: 0.9rem;
             display: flex;
@@ -190,13 +221,27 @@
         }
 
         @keyframes slideIn {
-            from { transform: translateX(120%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @keyframes fadeOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(120%); }
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(120%);
+            }
         }
 
         .toast-icon {
@@ -205,18 +250,22 @@
             color: #10b981;
         }
 
-        .loading, .error {
+        .loading,
+        .error {
             text-align: center;
             padding: 20px;
             color: #64748b;
         }
-        .error { color: #dc2626; }
+
+        .error {
+            color: #dc2626;
+        }
     </style>
 </head>
+
 <body>
     <h2>Verificación de Ventas</h2>
     <div id="lista-ventas">
-        <p class="loading">Cargando ventas...</p>
     </div>
     <div id="toast-container"></div>
 
@@ -243,21 +292,7 @@
             return `${h}:${m}`;
         }
 
-        function lanzarConfetiSutil() {
-            confetti({
-                particleCount: 20,
-                angle: 90,
-                spread: 45,
-                startVelocity: 18,
-                decay: 0.95,
-                gravity: 0.3,
-                ticks: 90,
-                origin: { y: 0.85, x: Math.random() },
-                colors: ['#10b981', '#3b82f6', '#f59e0b']
-            });
-        }
-
-        function mostrarToast(cambio, idVenta) {
+        function mostrarToast(pagado, idVenta) {
             const container = document.getElementById('toast-container');
             if (container.children.length >= 3) {
                 const oldest = container.firstElementChild;
@@ -270,11 +305,11 @@
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.innerHTML = `
-                <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Venta #${idVenta}: Bs. ${cambio.toFixed(2)}
-            `;
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Venta #${idVenta}: <br> Pagado Bs. ${pagado.toFixed(2)}
+    `;
             container.appendChild(toast);
 
             setTimeout(() => {
@@ -324,6 +359,7 @@
                         <span class="vendedor-nombre">${nombreVendedor}</span>
                     </div>
                     <div class="metodo-pago">${metodoPagoStr}</div>
+                    <div class="pagado-info">Pagado:Bs. ${pagado.toFixed(2)}</div>
                     <div class="ver-productos">
                         <svg class="ver-productos-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -350,8 +386,8 @@
             const contenedor = document.getElementById('lista-ventas');
             const idsExistentes = new Set(
                 Array.from(contenedor.querySelectorAll('.venta-header'))
-                    .map(el => el.textContent.match(/Venta #(\d+)/)?.[1])
-                    .filter(Boolean)
+                .map(el => el.textContent.match(/Venta #(\d+)/)?.[1])
+                .filter(Boolean)
             );
 
             const nuevas = nuevasVentas.filter(v => !idsExistentes.has(String(v.id)));
@@ -361,10 +397,10 @@
                     tempDiv.innerHTML = renderVenta(venta);
                     const nodo = tempDiv.firstElementChild;
                     contenedor.insertBefore(nodo, contenedor.firstChild);
-                    lanzarConfetiSutil();
+                    // Dentro del bucle forEach de nuevas ventas:
                     if (!primeraCarga) {
-                        const cambio = (parseFloat(venta.pagado) || 0) - ((parseFloat(venta.efectivo) || 0) + (parseFloat(venta.qr) || 0));
-                        mostrarToast(cambio, venta.id);
+                        const pagado = parseFloat(venta.pagado) || 0;
+                        mostrarToast(pagado, venta.id);
                     }
                 });
 
@@ -400,12 +436,14 @@
         });
 
         function cargarVentas() {
-            axios.get('{{ route("verificacion.validar") }}')
+            axios.get('{{ route('verificacion.validar') }}')
                 .then(response => {
                     const ventas = Array.isArray(response.data) ? response.data : [];
                     if (!compararVentas(ventas, ultimaData)) return;
                     actualizarVentasNuevas(ventas);
-                    ultimaData = ventas.map(v => ({ ...v }));
+                    ultimaData = ventas.map(v => ({
+                        ...v
+                    }));
                 })
                 .catch(error => {
                     console.error('Error al cargar ventas:', error);
@@ -418,8 +456,9 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             cargarVentas();
-            intervalId = setInterval(cargarVentas, 3500);
+            intervalId = setInterval(cargarVentas, 5000);
         });
     </script>
 </body>
+
 </html>
