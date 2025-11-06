@@ -636,6 +636,12 @@ return [
                     'icon' => 'fas fa-hand-holding-box', // Icono de recoger una caja
                     'can'  => 'control.index'
                 ],
+                [
+                    'text' => 'Ventas de Recojo Cola',
+                    'url'  => '/ventarecojomodernocola',
+                    'icon' => 'fas fa-hand-holding-box', // Icono de recoger una caja
+                    'can'  => 'control.index'
+                ],
                  [
                     'text' => 'Venta Rápida Moderna',
                     'url'  => '/ventarapidamoderna', // Usa la ruta correcta aquí

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ControlController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,8 @@ Route::post('/pedidos/formulariosucursal4', [ProductoController::class, 'formula
 
 
 
+Route::get('/productos-moderna/{id}', [ControlController::class, 'apiProductosModerna']);
+Route::post('/ventas/moderno', [ControlController::class, 'apiFinModernoAntiguo']);
 
 
 

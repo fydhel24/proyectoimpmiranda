@@ -3,7 +3,7 @@
 @section('title', 'Lista de Recojos')
 
 @section('content_header')
-    <h1 class="text-center">Lista de Recojos</h1>
+    <h1 class="text-center">Lista de Recojos Cola</h1>
 @stop
 
 @section('content')

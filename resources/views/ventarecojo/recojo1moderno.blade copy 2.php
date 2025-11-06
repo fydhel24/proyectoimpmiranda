@@ -381,7 +381,7 @@
 
                 //showLoading(true);
                 $.ajax({
-                    url: '/ventas/detalles',
+                    url: '/ventas/modernocola',
                     type: 'GET',
                     dataType: 'json',
                     timeout: 10000,
