@@ -327,7 +327,10 @@
             const qr = parseFloat(venta.qr) || 0;
             const pagado = parseFloat(venta.pagado) || 0;
             const total = parseFloat(venta.costo_total) || 0;
-            const cambio = pagado - (efectivo + qr);
+            const cambioReal = pagado - (efectivo + qr);
+            // Si es negativo, lo reemplazamos por 0 para mostrar
+            const cambio = cambioReal < 0 ? 0 : cambioReal;
+
             const estadoTiempo = obtenerEstadoPorTiempo(venta.created_at);
             const tiempoFormateado = formatearTiempo(venta.created_at);
             const nombreVendedor = venta.user?.name || '—';
