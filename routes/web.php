@@ -285,7 +285,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/envios/store-product/{id_pedido}/{id_envio}', [EnvioController::class, 'storeProduct'])->name('envio.store-product');
     Route::post('/envioproductos/store-product/{id_pedido}/{id_envio}', [EnvioController::class, 'envioproductos'])->name('envio.envioproductos');
   Route::get('/envios/getPedidoData', [EnvioController::class, 'getPedidoData'])->name('envios.getPedidoData');
-   
+
     // Rutas POST
     Route::post('/storecuaderno', [EnvioController::class, 'store'])->name('envios.storecuaderno');
     Route::post('/envios/{envio}/set-pedido', [EnvioController::class, 'setPedido'])->name('envios.setPedido');
@@ -362,7 +362,7 @@ Route::get('/envios/generar-reporte/{id}', [EnvioProductoController::class, 'gen
 Route::get('/notas', [NotaController::class, 'index'])->name('notas.index');
     Route::post('/notas', [NotaController::class, 'store'])->name('notas.store');
     Route::delete('/notas/{id}', [NotaController::class, 'destroy'])->name('notas.destroy');
-    
+
     //17-01-2025
     Route::get('/reportestockedit', [ProductoController::class, 'reporteStockEdit'])->name('report.stock');
     Route::post('report/update-stock', [ProductoController::class, 'updateStock'])->name('report.updateStock');
@@ -379,7 +379,7 @@ Route::put('/notas/{id}', [NotaController::class, 'update'])->name('notas.update
     Route::get('report/ventas/mes', [PdfReportesController::class, 'reportMes'])->name('report.mess');
     Route::get('report/ventas/pdfdia', [PdfReportesController::class, 'generateDailyPdf'])->name('report.pdfdia');
     Route::get('report/ventas/pdfmes', [PdfReportesController::class, 'generateMonthlyPdf'])->name('report.pdfmes');
-    
+
         Route::get('/caja-sucursal', [CajaSucursalController::class, 'index'])->name('caja_sucursal.index');
     Route::get('/caja_sucursal/create', [CajaSucursalController::class, 'create'])->name('caja_sucursal.create');
     Route::post('/caja_sucursal', [CajaSucursalController::class, 'store'])->name('caja_sucursal.store');
@@ -389,7 +389,7 @@ Route::put('/notas/{id}', [NotaController::class, 'update'])->name('notas.update
     //09/02/19-01-2025
         Route::get('reportes/productos', [ReporteProductoController::class, 'showForm'])->name('reportes.productos.form');
     Route::post('reportes/productos/generar', [ReporteProductoController::class, 'generateReport'])->name('reportes.productos.generar');
-    
+
     // Rutas para obtener los datos de ventas y pedidos para DataTables
     Route::get('reportes/productos/ventas/data', [ReporteProductoController::class, 'getVentasData'])->name('reportes.productos.ventas.data');
     Route::get('reportes/productos/pedidos/data', [ReporteProductoController::class, 'getPedidosData'])->name('reportes.productos.pedidos.data');
@@ -410,12 +410,12 @@ Route::put('/notas/{id}', [NotaController::class, 'update'])->name('notas.update
 Route::post('/envios/send-sucursal1', [EnvioProductoController::class, 'sendSucursal1'])->name('envios.sendSucursal1');
 
  Route::post('/envios/solicitud-entre-sucursales', [EnvioProductoController::class, 'storeSolicitudEntreSucursales'])->name('envios.storeSolicitudEntreSucursales');
- 
+
  //23-02-2025
  Route::post('/control/sucursal/{id}/favoritos', [ControlController::class, 'agregarFavorito'])->name('control.favoritos');
  Route::post('/control/sucursal/{id}/favoritos/quitar', [ControlController::class, 'quitarFavorito'])->name('control.quitarfavoritos');
  Route::get('/control/sucursal/{id}/favoritos', [ControlController::class, 'showFavoritosForm'])->name('control.favoritos.form');
- 
+
  //04-03-2025
  //Route::resource('cajas', CajaController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy')->names('cajas');
  Route::get('/verificar-caja-abierta', [ControlController::class, 'verificarCajaAbierta']);
@@ -434,7 +434,7 @@ Route::get('/informes/proveedores-pendientes', 'App\Http\Controllers\InformeCont
  //09-03-2025
  Route::post('/cancelarventa/devolucion-rapida/{venta}', [VentaController::class, 'devolucionRapida'])->name('cancelarventa.devolucionRapida');
 
- 
+
 //Rutas estao
 Route::post('/cancelarventa/devolucion-rapida/{venta}', [VentaController::class, 'devolucionRapida'])
     ->name('cancelarventa.devolucionRapida');
@@ -474,7 +474,7 @@ Route::post('/pedidos/devolver/{id}', [OrdenadoController::class, 'devolverPedid
     Route::delete('/envios/eliminar/{id}', [EnvioProductoController::class, 'eliminarSolicitud'])->name('envios.eliminar');
 //Route::get('/cajas/reporte/{id}', [CajaController::class, 'generateIndividualPdf'])->name('cajas.reporte-individual');
 //16/03/2025
-  
+
     Route::get('/cajas-sucursales', [CajaController::class, 'sucursales'])->name('cajas.sucursales');
     Route::get('/cajas-sucursales/{id}', [CajaController::class, 'index'])->name('cajas.index');
     Route::get('/cajas-sucursales/{id}/create', [CajaController::class, 'create'])->name('cajas.create');
@@ -497,8 +497,8 @@ Route::post('/pedidos/devolver/{id}', [OrdenadoController::class, 'devolverPedid
     // En routes/web.php
     Route::post('/pedidos/{pedido}/confirm', [OrdenadoController::class, 'confirmPedido'])->name('pedidos.confirm');
     Route::post('/pedidos/{id}/devolver', [OrdenadoController::class, 'devolverPedido'])->name('pedidos.devolver');
-    
-    
+
+
     //09/04/2025
       // Ruta para el reporte de ventas por día
     Route::get('/sales-report', [SalesReportController::class, 'index'])->name('sales-report.index');
@@ -517,17 +517,17 @@ Route::post('/pedidos/devolver/{id}', [OrdenadoController::class, 'devolverPedid
         $branches = \App\Models\Sucursale::all();
         return view('sales_report.month', compact('branches'));
     })->name('sales-report.month');
-    
-    
+
+
     //13042025
-    
+
     Route::post('/envios/recepcion-mal-estado', [EnvioProductoController::class, 'recepcionMalEstado'])->name('envios.recepcionMalEstado');
     Route::get('/productos/sucursal/{sucursalId}', [EnvioProductoController::class, 'getProductosPorSucursales']);
     Route::get('/envios/productos-mal-estado', [EnvioProductoController::class, 'productosMalEstado'])->name('envios.productosMalEstado');
     Route::get('/usuarios/sucursal/{id}', [EnvioProductoController::class, 'usuariosPorSucursal']);
     Route::post('/envios/confirmar-mal-estado/{id}', [EnvioProductoController::class, 'confirmarMalEstado'])->name('envios.confirmarMalEstado');
     Route::post('/envios/revertir-recepcion/{id}', [EnvioProductoController::class, 'revertirRecepcion']);
-    Route::post('/envios/generar-reporte-mal-estado/{id}', [EnvioProductoController::class, 'generarReporteMalEstadoSolo']); 
+    Route::post('/envios/generar-reporte-mal-estado/{id}', [EnvioProductoController::class, 'generarReporteMalEstadoSolo']);
     Route::get('/envios/productos-mal-estado-pdf', [EnvioProductoController::class, 'generarPDF'])
     ->name('envios.productosMalEstadoPDF');
 
@@ -537,20 +537,20 @@ Route::post('/pedidos/devolver/{id}', [OrdenadoController::class, 'devolverPedid
     Route::post('/envios/generar-reporte-almacen/{id}', [EnvioProductoController::class, 'generarReporteAlmacen']);
     Route::get('/envios/almacen-pdf', [EnvioProductoController::class, 'generarReporteAlmacenPdf'])
     ->name('envios.productosAlmacenPDF');
-    
+
     //14042025
-    
+
     Route::get('/ventas-canceladas', [SalesController::class, 'canceledSales'])->name('ventas.canceladas');
 
     Route::get('/ventas-canceladas/export', [SalesController::class, 'exportFilteredSales'])->name('ventas.canceladas.export');
 
 
     Route::get('/productos/pdf', [ProductoController::class, 'generarPDF'])->name('productos.precio.pdf');
-    
+
     Route::get('/orden/cuaderno/edit/{id_envio}/{id_pedido}', [OrdenadoController::class, 'editPedidocuaderno'])
     ->middleware('can:orden.edit')
     ->name('orden.cuaderno');
-    
+
     Route::put('/orden/cuaderno/update/{id}', [OrdenadoController::class, 'updatePedidocuaderno'])->name('orden.cuaderno.update');
       Route::get('/capturas/edit/{id}', [CapturaController::class, 'edit'])->name('capturas.edit');
 
@@ -560,7 +560,7 @@ Route::post('/pedidos/devolver/{id}', [OrdenadoController::class, 'devolverPedid
     // Ruta para eliminar una captura
     // Ruta para eliminar una captura
     Route::delete('/capturas/{id}', [CapturaController::class, 'destroy'])->name('capturas.destroy');
-    
+
 //Route::resource('carpetas', CarpetaController::class);
 Route::get('/carpetas', [CarpetaController::class, 'index'])->name('carpetas.index');
 Route::get('/carpetas/create', [CarpetaController::class, 'create'])->name('carpetas.create');
@@ -570,7 +570,7 @@ Route::put('/carpetas/{carpeta}', [CarpetaController::class, 'update'])->name('c
 Route::delete('/carpetas/{carpeta}', [CarpetaController::class, 'destroy'])->name('carpetas.destroy');
 Route::get('/carpetas/search', [CarpetaController::class, 'search'])->name('carpetas.search');
 
-    
+
 Route::resource('carpetas', CarpetaController::class);
 
 
@@ -648,13 +648,13 @@ Route::get('/ventarapidamoderna', [ControlController::class, 'ventarapidamoderna
 Route::get('/control/moderno/sucursal/{id}', [ControlController::class, 'productosmoderna'])->name('control.productos.moderna');
 
 //11/07/2025Route::get('/recojo/nueva/{id}/{idventa}', [RecojoController::class, 'productosnuevos'])->name('recojo.productosnuevos');
-   
+
     Route::get('/recojoproducto/{idventa}', function ($idventa) {
         return view('ventarecojo.pro', ['idventa' => $idventa]);
     })->name('recojoproducto.pro');
 
     Route::get('/nota/productosnuevos/pdf/', [RecojoController::class, 'pdf'])->name('productosnuevos.pdf');
-    
+
 
 //14/07/2025
 Route::get('/control/moderno1/sucursal/{id}', [ControlController::class, 'productosmoderna'])->name('control.productos.moderna');
@@ -673,7 +673,7 @@ Route::get('/recojo/nueva/{id}/{idventa}', [RecojoController::class, 'productosn
         ->middleware('can:orden.edit')
         ->name('orden.cuaderno');
     Route::put('/orden/cuaderno/updatesucursal/{id}', [OrdenadoController::class, 'updatePedidocuadernosucursal'])->name('orden.cuadernosucursal.update');
-   //rutas de confirmar y devolver sucursal 
+   //rutas de confirmar y devolver sucursal
     Route::post('/pedidos/{pedido}/confirmsucursal', [OrdenadoController::class, 'confirmPedidosucursal'])->name('pedidos.confirm.sucursal');
     Route::post('/pedidos/{id}/devolversucursal', [OrdenadoController::class, 'devolverPedidosucursal'])->name('pedidos.devolver.sucursal');
 
@@ -721,7 +721,7 @@ Route::put('prodregistromalestado/{id}/update-estado', [ProdRegistroMalEstadoCon
 
 Route::get('/productos/buscar', [ProdRegistroMalEstadoController::class, 'buscarProductos'])
     ->name('productos.buscar');
-    
+
 //rutaauditoriastock091025
 Route::get('/reportes/auditoria-stock', [AuditoriaController::class, 'auditoriaStock'])->name('report.stocklog');
     Route::get('/reportes/auditoria-stock/data', [AuditoriaController::class, 'auditoriaStockData'])->name('report.stocklog.data');
@@ -749,7 +749,7 @@ Route::get('/dashboard/home', [VentaController::class, 'estadisticasHome'])->nam
 
 ///06/07/2025
     Route::get('/ventarecojomoderno', [RecojoController::class, 'indexmoderno'])->name('recojo.index');
-    
+
     Route::get('/ventas/detalles/{id}', [RecojoController::class, 'verid']);
 
     Route::get('/ventas/detalles', [RecojoController::class, 'ver']);
@@ -757,3 +757,8 @@ Route::get('/dashboard/home', [VentaController::class, 'estadisticasHome'])->nam
 
 // Rutas de autenticación
 Auth::routes();
+
+use App\Http\Controllers\VerificacionController;
+
+Route::get('/verificacion', [VerificacionController::class, 'index'])->name('verificacion.index');
+Route::get('/verificacion/validar', [VerificacionController::class, 'validar'])->name('verificacion.validar');
