@@ -342,7 +342,10 @@
             let currentSearchTerm = '';
             let currentFilters = {};
 
-           
+            // Función para mostrar/ocultar loading
+            function showLoading(show = true) {
+                $loadingOverlay.fadeIn(show ? 200 : 0).fadeOut(show ? 0 : 200);
+            }
 
             // Función para actualizar el estado de conexión
             function updateConnectionStatus(connected) {

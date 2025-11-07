@@ -212,20 +212,7 @@ class ControlController extends Controller
             $validated = $request->validate([
                 'nombre_cliente' => 'required|string',
                 'costo_total' => 'required|numeric',
-                'productos' => [
-                    'required',
-                    function ($attribute, $value, $fail) {
-                        if (!is_string($value)) {
-                            $fail('The ' . $attribute . ' must be a string.');
-                            return;
-                        }
-                        try {
-                            json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-                        } catch (JsonException $e) {
-                            $fail('The ' . $attribute . ' must be a valid JSON string.');
-                        }
-                    },
-                ],
+                'productos' => 'required|json',
                 'id_sucursal' => 'required|numeric',
                 'ci' => 'nullable|string',
                 'tipo_pago' => 'required|string',
@@ -236,7 +223,7 @@ class ControlController extends Controller
                 'pagado_qr' => 'nullable|numeric'
             ]);
 
-            $productos = $request->productos;
+           $productos = json_decode($request->productos, true);
             $descuentoTotal = $request->descuento ?? 0;
 
             // ✅ Determinar los montos de pago
