@@ -214,7 +214,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            animation: slideIn 0.25s forwards, fadeOut 0.4s 2.6s forwards;
+            animation: slideIn 0.25s forwards;
             pointer-events: auto;
             max-width: 280px;
             border-left: 3px solid #10b981;
@@ -265,14 +265,35 @@
 
 <body>
     <h2>Verificación de Ventas</h2>
-    <div id="lista-ventas">
-    </div>
+    <div id="lista-ventas"></div>
     <div id="toast-container"></div>
 
     <script>
         let ultimaData = null;
         let intervalId = null;
         let primeraCarga = true;
+
+        // === SONIDO DE NOTIFICACIÓN ===
+        function reproducirSonidoToast() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 800; // Hz
+                gainNode.gain.value = 0.2;
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                oscillator.stop(audioCtx.currentTime + 0.3);
+            } catch (e) {
+                console.warn("No se pudo reproducir sonido:", e);
+            }
+        }
 
         function obtenerEstadoPorTiempo(fechaISO) {
             if (!fechaISO) return 'neutro';
@@ -296,22 +317,26 @@
             const container = document.getElementById('toast-container');
             if (container.children.length >= 3) {
                 const oldest = container.firstElementChild;
-                if (oldest) oldest.style.animation = 'fadeOut 0.3s forwards';
+                if (oldest) oldest.style.animation = 'fadeOut 0.4s forwards';
                 setTimeout(() => {
                     if (oldest && oldest.parentNode) oldest.parentNode.removeChild(oldest);
-                }, 300);
+                }, 400);
             }
 
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.innerHTML = `
-        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        Venta #${idVenta}: <br> Pagado Bs. ${pagado.toFixed(2)}
-    `;
+                <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Venta #${idVenta}:<br>Pagado Bs. ${pagado.toFixed(2)}
+            `;
             container.appendChild(toast);
 
+            // === REPRODUCIR SONIDO ===
+            reproducirSonidoToast();
+
+            // === Mostrar 5 segundos antes de desvanecer ===
             setTimeout(() => {
                 if (toast.parentNode) {
                     toast.style.animation = 'fadeOut 0.4s forwards';
@@ -319,7 +344,7 @@
                         if (toast.parentNode) toast.parentNode.removeChild(toast);
                     }, 400);
                 }
-            }, 3000);
+            }, 5000); // ← 5 segundos
         }
 
         function renderVenta(venta) {
@@ -328,7 +353,6 @@
             const pagado = parseFloat(venta.pagado) || 0;
             const total = parseFloat(venta.costo_total) || 0;
             const cambioReal = pagado - (efectivo + qr);
-            // Si es negativo, lo reemplazamos por 0 para mostrar
             const cambio = cambioReal < 0 ? 0 : cambioReal;
 
             const estadoTiempo = obtenerEstadoPorTiempo(venta.created_at);
@@ -362,7 +386,7 @@
                         <span class="vendedor-nombre">${nombreVendedor}</span>
                     </div>
                     <div class="metodo-pago">${metodoPagoStr}</div>
-                    <div class="pagado-info">Pagado:Bs. ${pagado.toFixed(2)}</div>
+                    <div class="pagado-info">Pagado: Bs. ${pagado.toFixed(2)}</div>
                     <div class="ver-productos">
                         <svg class="ver-productos-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -389,8 +413,8 @@
             const contenedor = document.getElementById('lista-ventas');
             const idsExistentes = new Set(
                 Array.from(contenedor.querySelectorAll('.venta-header'))
-                .map(el => el.textContent.match(/Venta #(\d+)/)?.[1])
-                .filter(Boolean)
+                    .map(el => el.textContent.match(/Venta #(\d+)/)?.[1])
+                    .filter(Boolean)
             );
 
             const nuevas = nuevasVentas.filter(v => !idsExistentes.has(String(v.id)));
@@ -400,7 +424,6 @@
                     tempDiv.innerHTML = renderVenta(venta);
                     const nodo = tempDiv.firstElementChild;
                     contenedor.insertBefore(nodo, contenedor.firstChild);
-                    // Dentro del bucle forEach de nuevas ventas:
                     if (!primeraCarga) {
                         const pagado = parseFloat(venta.pagado) || 0;
                         mostrarToast(pagado, venta.id);
@@ -444,9 +467,7 @@
                     const ventas = Array.isArray(response.data) ? response.data : [];
                     if (!compararVentas(ventas, ultimaData)) return;
                     actualizarVentasNuevas(ventas);
-                    ultimaData = ventas.map(v => ({
-                        ...v
-                    }));
+                    ultimaData = ventas.map(v => ({ ...v }));
                 })
                 .catch(error => {
                     console.error('Error al cargar ventas:', error);
