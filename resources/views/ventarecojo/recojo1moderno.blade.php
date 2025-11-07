@@ -358,7 +358,7 @@
             // Función para abrir nueva ventana
             window.openNewWindow = function(idventa) {
                 localStorage.clear();
-                const url = `/recojoproducto/${idventa}`;
+                const url = `/recojoproductocola/${idventa}`;
                 window.open(url, '_blank');
             };
 

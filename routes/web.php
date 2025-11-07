@@ -652,6 +652,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/recojoproducto/{idventa}', function ($idventa) {
         return view('ventarecojo.pro', ['idventa' => $idventa]);
     })->name('recojoproducto.pro');
+    Route::get('/recojoproductocola/{idventa}', function ($idventa) {
+        return view('ventarecojo.pro1', ['idventa' => $idventa]);
+    })->name('recojoproducto.pro');
 
     Route::get('/nota/productosnuevos/pdf/', [RecojoController::class, 'pdf'])->name('productosnuevos.pdf');
 
