@@ -379,8 +379,8 @@ Route::middleware('auth')->group(function () {
     Route::get('report/ventas/mes', [PdfReportesController::class, 'reportMes'])->name('report.mess');
     Route::get('report/ventas/pdfdia', [PdfReportesController::class, 'generateDailyPdf'])->name('report.pdfdia');
     Route::get('report/ventas/pdfmes', [PdfReportesController::class, 'generateMonthlyPdf'])->name('report.pdfmes');
-
-    Route::get('/caja-sucursal', [CajaSucursalController::class, 'index'])->name('caja_sucursal.index');
+    
+        Route::get('/caja-sucursal', [CajaSucursalController::class, 'index'])->name('caja_sucursal.index');
     Route::get('/caja_sucursal/create', [CajaSucursalController::class, 'create'])->name('caja_sucursal.create');
     Route::post('/caja_sucursal', [CajaSucursalController::class, 'store'])->name('caja_sucursal.store');
     Route::get('/caja_sucursal/{id}/edit', [CajaSucursalController::class, 'edit'])->name('caja_sucursal.edit');
@@ -438,6 +438,10 @@ Route::middleware('auth')->group(function () {
     //Rutas estao
     Route::post('/cancelarventa/devolucion-rapida/{venta}', [VentaController::class, 'devolucionRapida'])
         ->name('cancelarventa.devolucionRapida');
+
+//Rutas estao
+Route::post('/cancelarventa/devolucion-rapida/{venta}', [VentaController::class, 'devolucionRapida'])
+    ->name('cancelarventa.devolucionRapida');
 
 
     // Agrega esta nueva ruta en web.php:
@@ -519,7 +523,10 @@ Route::middleware('auth')->group(function () {
     })->name('sales-report.month');
 
 
+
+
     //13042025
+
 
     Route::post('/envios/recepcion-mal-estado', [EnvioProductoController::class, 'recepcionMalEstado'])->name('envios.recepcionMalEstado');
     Route::get('/productos/sucursal/{sucursalId}', [EnvioProductoController::class, 'getProductosPorSucursales']);
@@ -527,6 +534,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuarios/sucursal/{id}', [EnvioProductoController::class, 'usuariosPorSucursal']);
     Route::post('/envios/confirmar-mal-estado/{id}', [EnvioProductoController::class, 'confirmarMalEstado'])->name('envios.confirmarMalEstado');
     Route::post('/envios/revertir-recepcion/{id}', [EnvioProductoController::class, 'revertirRecepcion']);
+    Route::post('/envios/generar-reporte-mal-estado/{id}', [EnvioProductoController::class, 'generarReporteMalEstadoSolo']);
     Route::post('/envios/generar-reporte-mal-estado/{id}', [EnvioProductoController::class, 'generarReporteMalEstadoSolo']);
     Route::get('/envios/productos-mal-estado-pdf', [EnvioProductoController::class, 'generarPDF'])
         ->name('envios.productosMalEstadoPDF');
@@ -540,6 +548,7 @@ Route::middleware('auth')->group(function () {
 
     //14042025
 
+
     Route::get('/ventas-canceladas', [SalesController::class, 'canceledSales'])->name('ventas.canceladas');
 
     Route::get('/ventas-canceladas/export', [SalesController::class, 'exportFilteredSales'])->name('ventas.canceladas.export');
@@ -547,10 +556,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/productos/pdf', [ProductoController::class, 'generarPDF'])->name('productos.precio.pdf');
 
-    Route::get('/orden/cuaderno/edit/{id_envio}/{id_pedido}', [OrdenadoController::class, 'editPedidocuaderno'])
-        ->middleware('can:orden.edit')
-        ->name('orden.cuaderno');
 
+    Route::get('/orden/cuaderno/edit/{id_envio}/{id_pedido}', [OrdenadoController::class, 'editPedidocuaderno'])
+    ->middleware('can:orden.edit')
+    ->name('orden.cuaderno');
+    
     Route::put('/orden/cuaderno/update/{id}', [OrdenadoController::class, 'updatePedidocuaderno'])->name('orden.cuaderno.update');
     Route::get('/capturas/edit/{id}', [CapturaController::class, 'edit'])->name('capturas.edit');
 
@@ -659,6 +669,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/nota/productosnuevos/pdf/', [RecojoController::class, 'pdf'])->name('productosnuevos.pdf');
 
 
+
     //14/07/2025
     Route::get('/control/moderno1/sucursal/{id}', [ControlController::class, 'productosmoderna'])->name('control.productos.moderna');
     Route::post('/fin/finmodernoActualizar/{idventa}', [ControlController::class, 'finmodernoActualizar'])->name('control.finmoderno.finmodernoActualizar');
@@ -760,3 +771,8 @@ Route::get('/ventas/modernocola', [RecojoController::class, 'getVentasModernas']
 
 // Rutas de autenticación
 Auth::routes();
+
+use App\Http\Controllers\VerificacionController;
+
+Route::get('/verificacion', [VerificacionController::class, 'index'])->name('verificacion.index');
+Route::get('/verificacion/validar', [VerificacionController::class, 'validar'])->name('verificacion.validar');
