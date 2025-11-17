@@ -639,7 +639,7 @@ return [
                 [
                     'text' => 'Ventas de Recojo Cola',
                     'url'  => '/ventarecojomodernocola',
-                    'icon' => 'fas fa-hand-holding-box', // Icono de recoger una caja
+                    'icon' => 'fas fa-solid fa-cash-register', // Icono de recoger una caja
                     'can'  => 'control.index'
                 ],
                  [

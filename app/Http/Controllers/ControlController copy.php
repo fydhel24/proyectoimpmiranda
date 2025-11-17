@@ -64,6 +64,7 @@ class ControlController extends Controller
                 $query->whereIn('name', ['Vendedor', 'Vendedor Antiguo', 'Encargado de pedidos']); // Filtramos por los roles
             })
             ->where('status', 'active')
+            ->orWhereIn('email', ['JHOELSURCO2@GMAIL.COM'])
             ->get(); // Obtener solo los usuarios con los roles específicos de la sucursal
 
         // Recorremos los productos para obtener los datos adicionales
@@ -79,7 +80,7 @@ class ControlController extends Controller
             ]);
         }
         session(['venta_token' => Str::random(40)]);
-        // Obtener id del vendedor por defecto
+        // Obtener id del vendedor por defecto (yesenew@gmail.com)
         $defaultVendedor = User::where('email', 'sucursal1@gmail.com')->first();
         $defaultVendedorId = $defaultVendedor ? $defaultVendedor->id : null;
 
@@ -147,8 +148,12 @@ class ControlController extends Controller
             ]);
         }
 
+        // Obtener id del vendedor por defecto (yesenew@gmail.com)
+        $defaultVendedor = User::where('email', 'yesenew@gmail.com')->first();
+        $defaultVendedorId = $defaultVendedor ? $defaultVendedor->id : null;
+
         // Retornamos la vista con los productos y los usuarios filtrados
-        return view('control.prov2', compact('sucur', 'productos', 'id', 'categorias', 'marcas', 'users'));
+        return view('control.prov2', compact('sucur', 'productos', 'id', 'categorias', 'marcas', 'users', 'defaultVendedorId'));
     }
     public function apiProductosModerna(Request $request, $id)
     {

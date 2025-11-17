@@ -723,14 +723,7 @@ class RecojoController extends Controller
         $pdf->Cell(0, 4, utf8_decode("IMPORTADORA MIRANDA S.A."), 0, 1, 'C');
         $pdf->SetFont('Arial', '', 8);
         $pdf->Cell(0, 4, utf8_decode("A un Click del Producto que Necesita!!"), 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell(0, 4, utf8_decode("Telefono: 70621016"), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("Direccion: Caparazon Mall Center, Planta Baja, Local Nro29"), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode($pedido['nombre_sucursal']), 0, 1, 'C');
         $pdf->Cell(0, 4, utf8_decode("Fecha: " . date('Y/m/d H:i:s')), 0, 1, 'C');
-
-
-        $pdf->Cell(0, 4, utf8_decode("Codigo de Venta:IMP" . date('Y/m/d')), 0, 1, 'C');
 
         // Línea separadora
         $pdf->Ln(2);
@@ -755,8 +748,6 @@ class RecojoController extends Controller
         $pdf->Cell(0, 4, utf8_decode("CI / NIT: " . $pedido['nit']), 0, 1, 'L'); // Mostrar el CI aquí
         $pdf->Cell(0, 4, utf8_decode("Fecha: " . $pedido['fecha']), 0, 1, 'L');
         $pdf->Cell(0, 4, utf8_decode("Vendedor: " . $pedido['nombre_vendedor']), 0, 1, 'L');
-
-        /*    vendedor quiero que se vea aqui */
 
 
         // Línea separadora
@@ -824,15 +815,6 @@ class RecojoController extends Controller
 
         // Subtotal y total
         $pdf->SetFont('Arial', 'B', 7);
-        $pdf->Cell(0, 4, utf8_decode("NOTA IMPORTANTE"), 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(0, 4, utf8_decode("Los productos en PROMOCION NO CUENTAN CON NINGUN"), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("TIPO DE GARANTIA, ya que se encuentran en precio de REMATE."), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("Si su producto llegara a contar con algun defecto de FABRICA"), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("si quiere cambiarlo debe cancelar el producto al precio normal."), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("y debe traerlo como maximo al dia siguente por la tarde con su"), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("NOTA DE VENTA de lo contrario"), 0, 1, 'C');
-        $pdf->Cell(0, 4, utf8_decode("pierde derecho a cualquier RECLAMO"), 0, 1, 'C');
         $pdf->Cell(0, 4, utf8_decode("GRACIAS POR SU COMPRA :D !!!"), 0, 1, 'C');
     }
 
